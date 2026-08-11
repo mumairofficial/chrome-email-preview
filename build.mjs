@@ -19,6 +19,7 @@ async function copyStatic() {
   await cp('src/manifest.json', 'dist/manifest.json');
   await cp('src/viewer/viewer.html', 'dist/viewer.html');
   await cp('src/styles', 'dist/styles', { recursive: true });
+  await cp('src/icons', 'dist/icons', { recursive: true });
 }
 
 await rm('dist', { recursive: true, force: true });
