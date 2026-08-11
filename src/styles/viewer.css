@@ -95,3 +95,58 @@ button:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
+
+.tabbar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabbar button {
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 8px 12px;
+}
+
+.tabbar button[aria-selected='true'] {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+.tabbar button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.plain-pane {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 16px;
+  margin: 0;
+  font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.header-inspector table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.header-inspector th,
+.header-inspector td {
+  text-align: left;
+  vertical-align: top;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.header-inspector th {
+  color: var(--muted);
+  font-weight: 500;
+  white-space: nowrap;
+}

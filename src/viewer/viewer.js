@@ -5,6 +5,8 @@ import { renderBody } from './render-pipeline.js';
 import { renderHeaderCard } from './ui/header-card.js';
 import { renderErrorCard } from './ui/error-card.js';
 import { renderDropzone } from './ui/dropzone.js';
+import { buildTabs, renderTabBar } from './ui/tabs.js';
+import { renderHeaderInspector } from './ui/header-inspector.js';
 
 const app = document.getElementById('app');
 
@@ -12,6 +14,8 @@ const state = {
   model: null,
   bytes: null,
   source: null,
+  rawText: '',
+  activeTab: 'html',
   allowRemoteImages: false,
 };
 
@@ -45,9 +49,33 @@ function bodyFrame() {
   return frame;
 }
 
+function renderPane() {
+  if (state.activeTab === 'headers') return renderHeaderInspector(state.model);
+
+  if (state.activeTab === 'text' || state.activeTab === 'raw') {
+    const pre = document.createElement('pre');
+    pre.className = 'plain-pane';
+    pre.textContent = state.activeTab === 'text' ? state.model.text : state.rawText;
+    return pre;
+  }
+  return bodyFrame();
+}
+
 function renderMessage() {
+  const tabs = buildTabs(state.model);
+  if (!tabs.find((t) => t.id === state.activeTab)?.enabled) {
+    state.activeTab = tabs.find((t) => t.enabled).id;
+  }
+
   clear();
-  app.append(renderHeaderCard(state.model), bodyFrame());
+  app.append(
+    renderHeaderCard(state.model),
+    renderTabBar(tabs, state.activeTab, (id) => {
+      state.activeTab = id;
+      renderMessage();
+    }),
+    renderPane()
+  );
 }
 
 async function openBytes(bytes, source) {
@@ -65,6 +93,8 @@ async function openBytes(bytes, source) {
     }
     throw error;
   }
+  state.rawText = new TextDecoder('utf-8', { fatal: false }).decode(bytes);
+  state.activeTab = state.model.html ? 'html' : state.model.text ? 'text' : 'raw';
   renderMessage();
 }
 
