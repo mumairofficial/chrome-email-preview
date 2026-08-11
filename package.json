@@ -1,8 +1,7 @@
 {
   "name": "chrome-eml-preview",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Chrome extension that renders .eml email files locally in the browser.",
   "directories": {
     "doc": "docs"
   },
@@ -12,8 +11,14 @@
     "watch": "node build.mjs --watch",
     "package": "npm run build && node scripts/package.mjs"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "chrome-extension",
+    "eml",
+    "email",
+    "mime",
+    "viewer"
+  ],
+  "author": "Muhammad Umair",
   "license": "ISC",
   "type": "module",
   "dependencies": {

@@ -31,14 +31,42 @@ an extension cannot request it.
 - Message HTML is sanitized with DOMPurify and rendered in an opaque-origin
   sandboxed iframe under a nonce-based CSP. It cannot reach the viewer page,
   your cookies, or your storage.
+- PDF attachments get a **Preview** action that opens them in a new tab using
+  Chrome's built-in PDF viewer. The bytes come from a blob URL, so the file never
+  leaves the browser. PDFs mislabelled `application/octet-stream` are detected by
+  their `%PDF-` header and previewed too.
 - Authentication headers (DKIM, SPF, `Authentication-Results`) are shown
   verbatim in the **Headers** tab. They are displayed, not verified.
+- The **Structure** tab shows the real MIME tree — nesting, encodings, charsets
+  and per-part sizes — recovered by walking the raw source.
+- The **Security** tab summarises SPF/DKIM/DMARC as reported by the receiving
+  server, the `Received:` delivery path with per-hop latency, every outbound
+  link whose text disagrees with its destination, and the remote resources that
+  were blocked (calling out invisible tracking pixels). The tab carries a dot
+  when any of that needs attention.
+- Attachments are checked for executable and double extensions (`invoice.pdf.exe`)
+  and for bytes that contradict the declared type. SHA-256 is computed on demand.
+- Calendar invites (`text/calendar`) render as an event card with organiser,
+  attendees and their responses, plus a `.ics` download.
+- Signed and encrypted messages (S/MIME, PGP) are detected and labelled. Nothing
+  is decrypted or cryptographically verified locally.
+
+## Keyboard
+
+`1`–`6` switch panes · `/` or `Ctrl/Cmd-F` find in message · `d` download
+original · `i` toggle the details rail · `Esc` close find.
+
+Find is relayed into the message body over `postMessage`, because the body
+renders in an opaque origin the viewer deliberately cannot reach into.
 
 ## Known limits
 
 - Only single-message `.eml`. No `.mbox`, `.pst`, or Outlook `.msg`.
 - Download interception occasionally catches an `.eml` you meant to save. Use
   **Download original** in the viewer to save it.
+- No printing or PDF export. Chrome's own print of a sandboxed cross-origin
+  frame clipped long messages, so the feature was removed rather than shipped
+  broken.
 - A nested `.eml` attachment opens in place, replacing the current view.
 
 ## Packaging
@@ -74,4 +102,14 @@ npm run watch   # rebuild on change
 npm test        # vitest
 ```
 
-Design and implementation notes live in `docs/superpowers/`.
+Design and implementation notes live in `docs/superpowers/`. Store listing copy,
+permission justifications and screenshots live in `docs/store-listing.md`;
+regenerate the screenshots with `node scripts/screenshots.mjs`.
+
+## Privacy
+
+Nothing leaves your device. See [PRIVACY.md](PRIVACY.md).
+
+## Licence
+
+ISC — see [LICENSE](LICENSE).
