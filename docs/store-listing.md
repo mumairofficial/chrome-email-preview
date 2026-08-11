@@ -59,38 +59,70 @@ and `PRIVACY.md`.
 > Known limitation: download interception occasionally catches an .eml you
 > meant to save. Use "Download original" in the viewer to get the file.
 
+## Single purpose
+
+> EML Preview has one purpose: to display the contents of `.eml` email files
+> locally in the browser. Every permission below exists to get an `.eml` file in
+> front of the user; the extension does nothing else.
+
 ## Permission justifications
 
-Paste these into the dashboard's justification fields.
+Paste these into the dashboard's justification fields. Each was checked against
+actual API usage — see the audit table at the bottom of this section.
 
 **webNavigation**
-> Used to detect when the user navigates to a `.eml` file so the extension can
-> open its local viewer instead of letting Chrome download the file. The
-> extension only reads the URL of the top-level navigation and acts when it
-> ends in `.eml`.
+> The extension's purpose is to display `.eml` files. Chrome has no renderer for
+> `message/rfc822`, so navigating to a `.eml` file downloads it instead of
+> showing it. This permission is used for a single listener that inspects the
+> URL of top-level navigations and, when one ends in `.eml`, redirects that tab
+> to the extension's own viewer page. No page content is read or modified, and
+> no other navigation is touched.
 
 **downloads**
-> Used to detect a `.eml` file arriving as a download and open it in the
-> viewer instead. The extension cancels and erases that specific download so
-> the user is not left with a stray file they did not want.
+> Servers commonly send `.eml` files with `Content-Disposition: attachment`, in
+> which case no navigation occurs and webNavigation cannot see them. This
+> permission is used for a single listener that detects a download whose MIME
+> type is `message/rfc822` or whose filename ends in `.eml`, cancels and erases
+> that one download, and opens the file in the extension's viewer instead. It
+> is what makes the extension's single purpose work for web-hosted mail.
+> Downloads the extension itself initiates (the "Download original" button, a
+> `blob:` URL) are explicitly excluded so the user is never trapped in a loop.
 
 **Host permission `file:///*`**
-> Required to read `.eml` files the user opens from their own disk. No file is
-> read unless the user navigates to it. Chrome additionally requires the user
-> to enable "Allow access to file URLs" manually, which an extension cannot do
-> for them.
+> Required to read the bytes of `.eml` files the user opens from their own disk,
+> which is the extension's primary use case. A file is only read after the user
+> navigates to it. Chrome additionally requires the user to switch on "Allow
+> access to file URLs" by hand, which an extension cannot do on their behalf, so
+> this access is never silent.
 
 **Optional host permission `*://*/*`**
-> Requested at runtime, per site, and only when the user opens a `.eml` file
-> hosted on a website. It is optional and never granted in advance; the
-> extension asks for the single origin of the file being opened. It is used
-> solely to fetch that file's bytes.
+> Not granted at install time. When — and only when — the user opens a `.eml`
+> file hosted on a website, the extension asks for the single origin of that
+> file (for example `https://example.com/*`) via `chrome.permissions.request`,
+> and the user must approve the prompt. The broad pattern is declared because
+> the origin is not knowable in advance; the extension never requests more than
+> the one origin it needs. The permission is used only to fetch that file's
+> bytes. The request is made with credentials so that `.eml` files behind a
+> login work, exactly as a normal browser request to that site would.
 
 **Remote code**
-> The extension executes no remote code. All scripts are bundled in the
-> package. Message HTML is sanitised with DOMPurify and rendered inside a
-> sandboxed iframe with a nonce-based Content-Security-Policy and no
-> `allow-same-origin`.
+> None. All scripts are bundled in the package. Message HTML is sanitised with
+> DOMPurify and rendered inside a sandboxed iframe with a nonce-based
+> Content-Security-Policy and no `allow-same-origin`, so message content cannot
+> execute against the extension.
+
+### Audit — declared vs used
+
+| Declared | Used by | Source |
+| --- | --- | --- |
+| `webNavigation` | `webNavigation.onBeforeNavigate` | `src/background/service-worker.js` |
+| `downloads` | `downloads.onCreated`, `.cancel`, `.erase` | `src/background/service-worker.js` |
+| `file:///*` | `fetch` of `file:` URLs | `src/lib/source-loader.js` |
+| `*://*/*` (optional) | `fetch` of http(s) URLs, requested per-origin | `src/lib/source-loader.js`, `src/viewer/host-permission.js` |
+
+Requiring no permission, and correctly not declared: `tabs.create`, `tabs.update`
+(the `tabs` permission only gates `url`/`title`/`favIconUrl`, none of which are
+read), `runtime.getURL`, `action.onClicked`, `permissions.*`.
 
 ## Data-use disclosures
 
