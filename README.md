@@ -64,6 +64,12 @@ renders in an opaque origin the viewer deliberately cannot reach into.
 - Only single-message `.eml`. No `.mbox`, `.pst`, or Outlook `.msg`.
 - Download interception occasionally catches an `.eml` you meant to save. Use
   **Download original** in the viewer to save it.
+- Clicking an `.eml` that already sits in Chrome's downloads list will not open
+  the viewer. Chrome hands that click to the operating system, and no extension
+  API observes it — `chrome.downloads` has no event for a user opening a
+  completed download. The extension instead catches `.eml` downloads before they
+  land, at both `onCreated` and `onDeterminingFilename`. For a file already on
+  disk, drag it into the viewer or open its `file://` URL in a tab.
 - No printing or PDF export. Chrome's own print of a sandboxed cross-origin
   frame clipped long messages, so the feature was removed rather than shipped
   broken.
