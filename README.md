@@ -41,6 +41,32 @@ an extension cannot request it.
   **Download original** in the viewer to save it.
 - A nested `.eml` attachment opens in place, replacing the current view.
 
+## Packaging
+
+```bash
+npm run package   # builds, then writes release/eml-preview-<version>.zip
+```
+
+That zip is the **Chrome Web Store** upload artifact — the store takes a plain
+zip with `manifest.json` at its root, not a `.crx`. Publishing needs a one-time
+$5 developer registration; a listing can be Public, Unlisted, or restricted to
+named trusted testers.
+
+### About "Pack extension" and .crx
+
+The **Pack extension** button on `chrome://extensions` (or
+`chrome --pack-extension=dist --pack-extension-key=key.pem`) produces a signed
+`.crx` plus a `.pem` private key. Keep the `.pem` — repacking without it changes
+the extension ID.
+
+A `.crx` is only useful for self-hosting, and Chrome refuses to install
+self-hosted extensions on macOS and Windows: dragging one onto
+`chrome://extensions` fails with "can only be added from the Chrome Web Store."
+It works only when pushed by enterprise policy (`ExtensionSettings` with an
+update URL), or on Linux.
+
+For everyday use, **Load unpacked** on `dist/` is the practical route.
+
 ## Development
 
 ```bash
