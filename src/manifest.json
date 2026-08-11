@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "EML Preview",
+  "version": "0.1.0",
+  "description": "Preview .eml email files directly in Chrome, without uploading them anywhere.",
+  "permissions": ["webNavigation", "downloads", "tabs"],
+  "host_permissions": ["file:///*"],
+  "optional_host_permissions": ["*://*/*"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Open EML viewer"
+  }
+}
