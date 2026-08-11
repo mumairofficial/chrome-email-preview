@@ -1,0 +1,18 @@
+From: Alice <alice@example.com>
+To: Bob <bob@example.com>
+Subject: Here is the report
+Date: Mon, 10 Aug 2026 09:04:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="MIX"
+
+--MIX
+Content-Type: text/plain; charset=utf-8
+
+Report attached.
+--MIX
+Content-Type: text/plain; charset=utf-8; name="report.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="report.txt"
+
+aGVsbG8gcmVwb3J0
+--MIX--

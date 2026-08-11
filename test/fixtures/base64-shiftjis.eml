@@ -1,0 +1,8 @@
+From: Alice <alice@example.com>
+To: Bob <bob@example.com>
+Subject: Shift_JIS body
+Date: Mon, 10 Aug 2026 09:07:00 +0000
+Content-Type: text/plain; charset=shift_jis
+Content-Transfer-Encoding: base64
+
+g2WDWINn

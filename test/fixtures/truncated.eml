@@ -1,0 +1,11 @@
+From: Alice <alice@example.com>
+To: Bob <bob@example.com>
+Subject: Truncated message
+Date: Mon, 10 Aug 2026 09:10:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="CUT"
+
+--CUT
+Content-Type: text/plain; charset=utf-8
+
+This message stops mid-

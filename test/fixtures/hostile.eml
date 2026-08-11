@@ -1,0 +1,15 @@
+From: Mallory <mallory@example.com>
+To: Bob <bob@example.com>
+Subject: Please read
+Date: Mon, 10 Aug 2026 09:09:00 +0000
+Content-Type: text/html; charset=utf-8
+
+<html><head><style>body { color: #333; }</style></head><body>
+<script>window.stolen = document.cookie;</script>
+<img src="https://tracker.example.com/pixel.gif" width="1" height="1">
+<img src="broken.png" onerror="alert(1)">
+<a href="javascript:alert(2)">click me</a>
+<iframe src="https://evil.example.com/"></iframe>
+<div style="position: fixed; top: 0">overlay</div>
+<p>Visible text.</p>
+</body></html>

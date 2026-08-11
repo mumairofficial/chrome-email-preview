@@ -1,0 +1,9 @@
+From: Alice <alice@example.com>
+To: Bob <bob@example.com>
+Subject: Plain text hello
+Date: Mon, 10 Aug 2026 09:00:00 +0000
+Message-ID: <plain-1@example.com>
+Content-Type: text/plain; charset=utf-8
+
+Hello Bob.
+This is plain text.

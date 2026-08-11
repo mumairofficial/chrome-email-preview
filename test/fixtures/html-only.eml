@@ -1,0 +1,7 @@
+From: Alice <alice@example.com>
+To: Bob <bob@example.com>
+Subject: HTML only
+Date: Mon, 10 Aug 2026 09:01:00 +0000
+Content-Type: text/html; charset=utf-8
+
+<html><body><h1>Heading</h1><p>Hello <b>Bob</b>.</p></body></html>
