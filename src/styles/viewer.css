@@ -150,3 +150,46 @@ button:hover {
   font-weight: 500;
   white-space: nowrap;
 }
+
+.attachments {
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.attachments h2 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.attachments ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.attachment {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.attachment__name {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.attachment__meta {
+  color: var(--muted);
+  font-size: 12px;
+  margin-right: auto;
+  white-space: nowrap;
+}

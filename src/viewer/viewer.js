@@ -7,6 +7,7 @@ import { renderErrorCard } from './ui/error-card.js';
 import { renderDropzone } from './ui/dropzone.js';
 import { buildTabs, renderTabBar } from './ui/tabs.js';
 import { renderHeaderInspector } from './ui/header-inspector.js';
+import { renderAttachments } from './ui/attachments.js';
 
 const app = document.getElementById('app');
 
@@ -76,6 +77,11 @@ function renderMessage() {
     }),
     renderPane()
   );
+
+  const strip = renderAttachments(state.model.attachments, {
+    onOpenNested: (att) => openBytes(att.content, att.filename),
+  });
+  if (strip) app.append(strip);
 }
 
 async function openBytes(bytes, source) {
