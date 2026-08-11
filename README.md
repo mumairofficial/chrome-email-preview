@@ -110,6 +110,9 @@ regenerate the screenshots with `node scripts/screenshots.mjs`.
 
 Nothing leaves your device. See [PRIVACY.md](PRIVACY.md).
 
+Published policy URL (for the Chrome Web Store listing):
+<https://github.com/mumairofficial/chrome-email-preview/blob/main/PRIVACY.md>
+
 ## Licence
 
 ISC — see [LICENSE](LICENSE).

@@ -9,7 +9,8 @@ and `PRIVACY.md`.
 - **Version:** 1.0.0
 - **Category:** Productivity
 - **Language:** English (UK)
-- **Privacy policy URL:** *(host `PRIVACY.md` somewhere public and paste the URL — required before submission)*
+- **Privacy policy URL:** https://github.com/mumairofficial/chrome-email-preview/blob/main/PRIVACY.md
+- **Homepage URL:** https://github.com/mumairofficial/chrome-email-preview
 
 ## Short description (132 char limit)
 
