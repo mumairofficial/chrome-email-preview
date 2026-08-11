@@ -1,10 +1,11 @@
 // WHY THIS EXISTS: allow-same-origin is deliberately absent. Without it the frame
 // is an opaque origin that cannot read the viewer's DOM, storage, or cookies.
 // allow-scripts is safe only because of that omission, and exists solely for the
-// nonce'd height reporter below.
+// nonce'd find responder below.
 export const IFRAME_SANDBOX = 'allow-scripts allow-popups allow-popups-to-escape-sandbox';
 
-export const HEIGHT_MESSAGE_TYPE = 'eml-preview-height';
+export const FIND_MESSAGE_TYPE = 'eml-preview-find';
+export const FIND_RESULT_MESSAGE_TYPE = 'eml-preview-find-result';
 
 const BASE_STYLES = `
   html, body { margin: 0; padding: 16px; background: #fff; color: #111; }
@@ -17,18 +18,24 @@ const BASE_STYLES = `
   }
 `;
 
-function heightReporter() {
+// The body lives in an opaque origin, so the viewer cannot search it from the
+// outside. Find is relayed in over postMessage and answered here.
+function findResponder() {
   return `
     (function () {
-      var send = function () {
+      addEventListener('message', function (event) {
+        var data = event.data || {};
+        if (data.type !== ${JSON.stringify(FIND_MESSAGE_TYPE)}) return;
+        var found = false;
+        if (data.query) {
+          if (data.fromStart) { try { getSelection().removeAllRanges(); } catch (e) {} }
+          found = window.find(data.query, false, Boolean(data.backwards), true, false, false, false);
+        }
         parent.postMessage(
-          { type: ${JSON.stringify(HEIGHT_MESSAGE_TYPE)}, height: document.documentElement.scrollHeight },
+          { type: ${JSON.stringify(FIND_RESULT_MESSAGE_TYPE)}, found: found },
           '*'
         );
-      };
-      new ResizeObserver(send).observe(document.documentElement);
-      addEventListener('load', send);
-      send();
+      });
     })();
   `;
 }
@@ -57,7 +64,7 @@ export function buildSrcdoc(bodyHtml, { nonce, allowRemoteImages = false } = {})
 </head>
 <body>
 ${bodyHtml}
-<script nonce="${nonce}">${heightReporter()}</script>
+<script nonce="${nonce}">${findResponder()}</script>
 </body>
 </html>`;
 }

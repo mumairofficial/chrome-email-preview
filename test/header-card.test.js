@@ -4,10 +4,10 @@ import { renderErrorCard } from '../src/viewer/ui/error-card.js';
 import { parseEmail } from '../src/lib/parse-email.js';
 import { loadFixture } from './helpers/load-fixture.js';
 
+// The subject now lives in the app bar; see app-bar.test.js for its cases.
 describe('renderHeaderCard', () => {
-  it('shows subject, from, to and date', async () => {
+  it('shows from, to and date', async () => {
     const el = renderHeaderCard(await parseEmail(await loadFixture('plain-text.eml')));
-    expect(el.textContent).toContain('Plain text hello');
     expect(el.textContent).toContain('Alice <alice@example.com>');
     expect(el.textContent).toContain('bob@example.com');
     expect(el.textContent).toMatch(/2026/);
@@ -18,13 +18,14 @@ describe('renderHeaderCard', () => {
     expect(el.textContent).not.toContain('Cc');
   });
 
-  it('uses a placeholder when the subject is empty', () => {
-    const el = renderHeaderCard({ subject: '', from: null, to: [], cc: [], date: '' });
-    expect(el.textContent).toContain('(no subject)');
-  });
-
   it('escapes header values rather than interpreting them as html', () => {
-    const el = renderHeaderCard({ subject: '<img src=x onerror=alert(1)>', from: null, to: [], cc: [], date: '' });
+    const el = renderHeaderCard({
+      subject: '',
+      from: { name: '<img src=x onerror=alert(1)>', address: 'a@example.com' },
+      to: [],
+      cc: [],
+      date: '',
+    });
     expect(el.querySelectorAll('img')).toHaveLength(0);
     expect(el.textContent).toContain('<img src=x onerror=alert(1)>');
   });

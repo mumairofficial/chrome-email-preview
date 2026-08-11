@@ -1,6 +1,15 @@
+import { renderIcon } from './icons.js';
+
 export function renderDropzone(onFile) {
   const zone = document.createElement('section');
   zone.className = 'dropzone';
+
+  zone.append(renderIcon('mailRead', { size: 56, className: 'dropzone__glyph' }));
+
+  const title = document.createElement('h1');
+  title.className = 'dropzone__title';
+  title.textContent = 'EML Preview';
+  zone.append(title);
 
   const label = document.createElement('p');
   label.textContent = 'Drop an .eml file here, or';

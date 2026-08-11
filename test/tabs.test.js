@@ -2,9 +2,9 @@ import { describe, it, expect } from 'vitest';
 import { buildTabs, renderTabBar } from '../src/viewer/ui/tabs.js';
 
 describe('buildTabs', () => {
-  it('always offers four tabs in a fixed order', () => {
+  it('always offers the same tabs in a fixed order', () => {
     const tabs = buildTabs({ html: '<p>x</p>', text: 'x', headers: [] });
-    expect(tabs.map((t) => t.id)).toEqual(['html', 'text', 'raw', 'headers']);
+    expect(tabs.map((t) => t.id)).toEqual(['html', 'text', 'raw', 'headers', 'structure', 'security']);
   });
 
   it('disables html when there is no html part', () => {
@@ -18,10 +18,11 @@ describe('buildTabs', () => {
     expect(tabs.find((t) => t.id === 'text').enabled).toBe(false);
   });
 
-  it('always enables raw and headers', () => {
+  it('always enables the tabs that need no body part', () => {
     const tabs = buildTabs({ html: null, text: null, headers: [] });
-    expect(tabs.find((t) => t.id === 'raw').enabled).toBe(true);
-    expect(tabs.find((t) => t.id === 'headers').enabled).toBe(true);
+    for (const id of ['raw', 'headers', 'structure', 'security']) {
+      expect(tabs.find((t) => t.id === id).enabled, id).toBe(true);
+    }
   });
 });
 

@@ -1,0 +1,27 @@
+From: Ana Ruiz <ana@corp.com>
+To: Bob <bob@corp.com>
+Subject: Quarterly review
+Date: Mon, 1 Jun 2026 09:00:00 +0000
+Authentication-Results: mx.corp.com; spf=pass smtp.mailfrom=corp.com; dkim=pass header.d=corp.com; dmarc=pass header.from=corp.com
+Received: from mail.corp.com by mx.corp.com with ESMTPS; Mon, 1 Jun 2026 09:00:10 +0000
+Received: from laptop.corp.com by mail.corp.com with ESMTP; Mon, 1 Jun 2026 09:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="MIX"
+
+--MIX
+Content-Type: text/html; charset=utf-8
+
+<p>Invite attached. <a href="https://evil.example/login">https://corp.com/login</a></p>
+<img src="https://tracker.example/p.gif" width="1" height="1">
+--MIX
+Content-Type: text/calendar; method=REQUEST; name="invite.ics"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="invite.ics"
+
+QkVHSU46VkNBTEVOREFSDQpWRVJTSU9OOjIuMA0KTUVUSE9EOlJFUVVFU1QNCkJFR0lOOlZFVkVO
+VA0KU1VNTUFSWTpRdWFydGVybHkgcmV2aWV3DQpEVFNUQVJUOjIwMjYwNjA1VDE1MDAwMFoNCkRU
+RU5EOjIwMjYwNjA1VDE2MDAwMFoNCkxPQ0FUSU9OOlJvb20gNFwsIExldmVsIDINCkRFU0NSSVBU
+SU9OOkJyaW5nIHRoZSBkZWNrDQpPUkdBTklaRVI7Q049QW5hIFJ1aXo6bWFpbHRvOmFuYUBjb3Jw
+LmNvbQ0KQVRURU5ERUU7Q049Qm9iO1BBUlRTVEFUPUFDQ0VQVEVEOm1haWx0bzpib2JAY29ycC5j
+b20NCkVORDpWRVZFTlQNCkVORDpWQ0FMRU5EQVI=
+--MIX--

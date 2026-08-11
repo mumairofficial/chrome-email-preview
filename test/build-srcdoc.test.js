@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildSrcdoc, IFRAME_SANDBOX, HEIGHT_MESSAGE_TYPE } from '../src/lib/build-srcdoc.js';
+import { buildSrcdoc, IFRAME_SANDBOX, FIND_MESSAGE_TYPE } from '../src/lib/build-srcdoc.js';
 
 const cspOf = (doc) =>
   doc.querySelector('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
@@ -44,7 +44,7 @@ describe('buildSrcdoc', () => {
     const scripts = doc.querySelectorAll('script');
     expect(scripts).toHaveLength(1);
     expect(scripts[0].getAttribute('nonce')).toBe('N1');
-    expect(scripts[0].textContent).toContain(HEIGHT_MESSAGE_TYPE);
+    expect(scripts[0].textContent).toContain(FIND_MESSAGE_TYPE);
   });
 
   it('opens links in a new tab by default', () => {

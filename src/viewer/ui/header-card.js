@@ -10,12 +10,12 @@ function row(label, value) {
 
 export function renderHeaderCard(model) {
   const card = document.createElement('section');
-  card.className = 'header-card';
+  card.className = 'rail__section header-card';
 
-  const subject = document.createElement('h1');
-  subject.className = 'header-card__subject';
-  subject.textContent = model.subject || '(no subject)';
-  card.append(subject);
+  const heading = document.createElement('h2');
+  heading.className = 'rail__title';
+  heading.textContent = 'Details';
+  card.append(heading);
 
   const dl = document.createElement('dl');
   dl.className = 'header-card__fields';
